@@ -1,0 +1,9 @@
+
+public class usageExemple {
+	public void main(String[] args) {
+		//Initialisation
+		FSMContext context = new FSMContext(); //We have to set the init state before using the context !
+		FSMState s0 = new FSMState(context);
+		
+	}
+}

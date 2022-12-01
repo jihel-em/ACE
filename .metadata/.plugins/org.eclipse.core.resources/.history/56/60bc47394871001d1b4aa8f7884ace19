@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class FSMContext {
+	FSMState currentState;
+	
+	FSMContext(FSMState initState){
+		currentState = initState;
+	}
+	
+	FSMContext(){}
+	
+	void changeState(FSMState newState) {
+		currentState = newState;
+	}
+	
+	void transition(String input) {
+		currentState.transition(input);
+	}
+	
+	//On récupère un input de l'utilisateur, puis on essaie de changer d'état.
+	void getInput(Scanner scanner) {
+		String userName = scanner.nextLine();
+	}
+	
+}

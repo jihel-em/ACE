@@ -1,0 +1,91 @@
+package org.xtext.example.mydsl.generator
+
+import fr.ice.fsm.model.fsm.FSM
+import fr.ice.fsm.model.fsm.State
+import fr.ice.fsm.model.fsm.Transition
+import java.util.HashMap
+
+class VisitorCompil implements Visitor {
+	val NEWLINE = "\r\n"
+	val TAB = "\t"
+	
+	var numState = 0	//Contient le numéro du prochain état
+	var numTrans = 0	//Contient le numéro de la prochaine transition
+	
+	var numStateInit = -1	//Contiendra le numéro de l'état initial
+	
+	var mapState = new HashMap<String,Integer>()
+	
+	
+	override visitFSM(FSM f){
+		var name = f.getName()
+		
+		var res = new StringBuilder()
+		
+		res.append("public class usageExemple {"+NEWLINE+TAB+"public void main(String[] args) {"+NEWLINE+TAB+"Initialization"+NEWLINE)
+		res.append(TAB+ "//We start by creating the context." +NEWLINE)
+		res.append(TAB+ "FSMContext context = new FSMContext();" +NEWLINE)
+		
+		for(s: f.getState()){
+			res.append(TAB+ "//Then we create the states." +NEWLINE)
+			res.append(s.accept(this))
+		}
+		
+		res.append(TAB+ "//We put the init state into the context." +NEWLINE)
+		res.append(TAB+ "context.changeState(s" + numStateInit + ");" +NEWLINE)
+		
+		for(t: f.getTransition()){
+			res.append(TAB+ "//We create the transitions." +NEWLINE)
+			res.append(t.accept(this))
+		}
+		
+		return res
+	}
+	
+	override visitState(State s){
+		var entry = s.getEntry()
+		var name = s.getName()
+		var init = s.isIsInitState()
+		
+		mapState.put(name, numState)
+		
+		if (init){
+			if (numStateInit != -1){
+				System.out.println("Attention ! Plus d'un état est désigné comme initial !" + NEWLINE +
+					"L'état " + numStateInit + " est gardé comme état initial.")
+			}
+		}
+		
+		var res = new StringBuilder()
+		
+		res.append(TAB+ "FSMState s" + numState++ + " = new FSMState(context, \"" + entry + "\");" +NEWLINE)
+		
+		return res
+	}
+	
+	override visitTransition(Transition t){
+		var end_state = mapState.get(t.getEnd_state().getName())
+		var input = t.getInput()
+		var name = t.getName()
+		var start_state = mapState.get(t.getStart_state().getName())
+		
+		var res = new StringBuilder()
+		
+		res.append(TAB+ "s" + start_state + ".addTransition(\""
+			+ input + "\", \"" + name + "\", s1);" +NEWLINE
+		)
+		
+		return res
+		
+	}
+	
+	
+	
+	//to delete
+	def StringBuilder accept(State state, VisitorCompil v){
+		return v.visitState(state)
+	}
+	def StringBuilder accept(Transition transition, VisitorCompil v){
+		return v.visitTransition(transition)
+	}
+}

@@ -1,0 +1,73 @@
+package org.xtext.example.mydsl.generator
+
+import fr.ice.fsm.model.fsm.FSM
+import fr.ice.fsm.model.fsm.State
+import fr.ice.fsm.model.fsm.Transition
+import java.util.Map
+import java.util.HashMap
+import java.util.Scanner
+
+class VisitorInterp implements Visitor {
+	//Dictionnaire qui associe un état (clef) à une transition.
+	//Les transitions sont représentées par un dictionnaire qui associe l'input de la transition à l'état suivant associé.
+	private Map<String,Map<String,String>> mapStateTransition = new HashMap<String,Map<String,String>>()
+	
+	private Scanner scanner = new Scanner(System.in)
+	
+	private String userInput = ""
+	
+	private Map<State,State> validTransitions = new HashMap<State,State>()
+	
+	override visitFSM(FSM f) {
+		var res = new StringBuilder()
+		var name = f.getName()
+		
+		//On récupère l'input de l'utilisateur.
+		userInput = scanner.nextLine()
+		
+		for(t: f.getTransition()){
+			res.append(t.accept(this))
+		}
+		
+		
+		for(s: f.getState()){
+			res.append(s.accept(this))
+		}
+		
+		
+		return res
+	}
+	
+	override visitState(State s) {
+		var entry = s.getEntry()
+		var name = s.getName()
+		var init = s.isIsInitState()
+
+		if (!mapStateTransition.containsKey(name))
+			mapStateTransition.put(name, new HashMap<String,String>())
+
+		var res = new StringBuilder()
+		
+		return res
+	}
+	
+	//On cherche les transitions qui se déclenchent via userinput
+	override visitTransition(Transition t) {
+		var input = t.getInput()
+		var name = t.getName()
+		var end_state = t.getEnd_state().getName()
+		var start_state = t.getStart_state().getName()
+		
+		
+		return new StringBuilder()
+	}
+	
+	
+	//to delete
+	def StringBuilder accept(State state, VisitorInterp v){
+		return v.visitState(state)
+	}
+	def StringBuilder accept(Transition transition, VisitorInterp v){
+		return v.visitTransition(transition)
+	}
+}

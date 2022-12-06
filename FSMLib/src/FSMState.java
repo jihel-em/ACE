@@ -3,12 +3,13 @@ import java.util.Map;
 
 public class FSMState {
 	FSMContext context;
-	String entry;
+	public String entry;
 	Map<String,FSMTransition> transitions;
 	
 	FSMState(FSMContext context, String entry){
 		this.context = context;
-		transitions = new HashMap<String,FSMTransition>();
+		this.entry = entry;
+		this.transitions = new HashMap<String,FSMTransition>();
 	}
 	
 	void addTransition(String input, String name, FSMState end_state) {
@@ -21,9 +22,10 @@ public class FSMState {
 			FSMTransition t = transitions.get(input);
 			FSMState s = t.getEndState();
 			context.changeState(s);
-			System.out.println(s.entry);
 		}
-		//else pour renvoyer une erreur ?
+		else {
+			System.out.println("\"" + input + "\" is not a valid input for the current state.");
+		}
 		
 	}
 

@@ -190,7 +190,7 @@ ruleState returns [EObject current=null]
 					setWithLastConsumed($current, "isInitState", lv_isInitState_2_0 != null, "init");
 				}
 			)
-		)
+		)?
 		(
 			(
 				{
@@ -261,17 +261,17 @@ ruleTransition returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getTransitionAccess().getNameEStringParserRuleCall_1_0());
+					newCompositeNode(grammarAccess.getTransitionAccess().getInputEStringParserRuleCall_1_0());
 				}
-				lv_name_1_0=ruleEString
+				lv_input_1_0=ruleEString
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getTransitionRule());
 					}
 					set(
 						$current,
-						"name",
-						lv_name_1_0,
+						"input",
+						lv_input_1_0,
 						"org.xtext.example.mydsl.MyDsl.EString");
 					afterParserOrEnumRuleCall();
 				}
@@ -313,35 +313,33 @@ ruleTransition returns [EObject current=null]
 				}
 			)
 		)
+		otherlv_5='['
+		{
+			newLeafNode(otherlv_5, grammarAccess.getTransitionAccess().getLeftSquareBracketKeyword_5());
+		}
 		(
-			otherlv_5='['
-			{
-				newLeafNode(otherlv_5, grammarAccess.getTransitionAccess().getLeftSquareBracketKeyword_5_0());
-			}
 			(
-				(
-					{
-						newCompositeNode(grammarAccess.getTransitionAccess().getInputEStringParserRuleCall_5_1_0());
+				{
+					newCompositeNode(grammarAccess.getTransitionAccess().getNameEStringParserRuleCall_6_0());
+				}
+				lv_name_6_0=ruleEString
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTransitionRule());
 					}
-					lv_input_6_0=ruleEString
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getTransitionRule());
-						}
-						set(
-							$current,
-							"input",
-							lv_input_6_0,
-							"org.xtext.example.mydsl.MyDsl.EString");
-						afterParserOrEnumRuleCall();
-					}
-				)
+					set(
+						$current,
+						"name",
+						lv_name_6_0,
+						"org.xtext.example.mydsl.MyDsl.EString");
+					afterParserOrEnumRuleCall();
+				}
 			)
-			otherlv_7=']'
-			{
-				newLeafNode(otherlv_7, grammarAccess.getTransitionAccess().getRightSquareBracketKeyword_5_2());
-			}
-		)?
+		)
+		otherlv_7=']'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getTransitionAccess().getRightSquareBracketKeyword_7());
+		}
 	)
 ;
 

@@ -1,6 +1,0 @@
-
-public class usageExemple {
-	public void main(String[] args) {
-		FSMContext context = new FSMContext();
-	}
-}

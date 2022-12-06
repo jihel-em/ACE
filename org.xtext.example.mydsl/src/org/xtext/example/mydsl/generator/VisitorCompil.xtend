@@ -20,9 +20,11 @@ class VisitorCompil implements Visitor {
 		var name = f.getName()
 		
 		var res = new StringBuilder()
+		res.append("import java.util.Scanner;" + NEWLINE + NEWLINE)
 		
-		res.append("public class usageExemple {" + NEWLINE +
-			TAB + "public void main(String[] args) {" + NEWLINE +
+		//Défaut : le fsm peut avoir un nom qui ne correspond pas au nom d'une classe Java.
+		res.append("public class "+ name +" {" + NEWLINE +
+			TAB + "public static void main(String[] args) {" + NEWLINE +
 			TAB + TAB + "//Initialization" + NEWLINE
 		)
 		res.append(TAB + TAB + "//We start by creating the context." + NEWLINE)
@@ -45,8 +47,10 @@ class VisitorCompil implements Visitor {
 		
 		res.append(TAB + TAB + "//Main" + NEWLINE +
 			TAB + TAB + "Scanner scanner = new Scanner(System.in);" + NEWLINE +
-			TAB + TAB + "while(true)" + NEWLINE +
+			TAB + TAB + "while(true) {" + NEWLINE +
 			TAB + TAB + TAB + "context.getInput(scanner.nextLine());" + NEWLINE +
+			TAB + TAB + TAB + "System.out.println(\"Enter the fire condition of a transition.\");" + NEWLINE +
+			TAB + TAB + "}" + NEWLINE +
 			TAB + "}" + NEWLINE +
 			"}"
 		)
@@ -69,6 +73,7 @@ class VisitorCompil implements Visitor {
 				System.out.println("Attention ! Plus d'un état est désigné comme initial !" + NEWLINE +
 					"L'état " + numStateInit + " est gardé comme état initial.")
 			}
+			numStateInit = numState
 		}
 		
 		var res = new StringBuilder()

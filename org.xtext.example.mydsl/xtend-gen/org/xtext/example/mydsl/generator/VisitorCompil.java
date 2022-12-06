@@ -22,8 +22,9 @@ public class VisitorCompil implements Visitor {
   public StringBuilder visitFSM(final FSM f) {
     String name = f.getName();
     StringBuilder res = new StringBuilder();
-    res.append((((((((("public class usageExemple {" + this.NEWLINE) + 
-      this.TAB) + "public void main(String[] args) {") + this.NEWLINE) + 
+    res.append((("import java.util.Scanner;" + this.NEWLINE) + this.NEWLINE));
+    res.append((((((((((("public class " + name) + " {") + this.NEWLINE) + 
+      this.TAB) + "public static void main(String[] args) {") + this.NEWLINE) + 
       this.TAB) + this.TAB) + "//Initialization") + this.NEWLINE));
     res.append((((this.TAB + this.TAB) + "//We start by creating the context.") + this.NEWLINE));
     res.append(((((this.TAB + this.TAB) + "FSMContext context = new FSMContext();") + this.NEWLINE) + this.NEWLINE));
@@ -41,10 +42,12 @@ public class VisitorCompil implements Visitor {
       res.append(this.accept(t, this));
     }
     res.append(this.NEWLINE);
-    res.append(((((((((((((((((((((this.TAB + this.TAB) + "//Main") + this.NEWLINE) + 
+    res.append((((((((((((((((((((((((((((((this.TAB + this.TAB) + "//Main") + this.NEWLINE) + 
       this.TAB) + this.TAB) + "Scanner scanner = new Scanner(System.in);") + this.NEWLINE) + 
-      this.TAB) + this.TAB) + "while(true)") + this.NEWLINE) + 
+      this.TAB) + this.TAB) + "while(true) {") + this.NEWLINE) + 
       this.TAB) + this.TAB) + this.TAB) + "context.getInput(scanner.nextLine());") + this.NEWLINE) + 
+      this.TAB) + this.TAB) + this.TAB) + "System.out.println(\"Enter the fire condition of a transition.\");") + this.NEWLINE) + 
+      this.TAB) + this.TAB) + "}") + this.NEWLINE) + 
       this.TAB) + "}") + this.NEWLINE) + 
       "}"));
     return res;
@@ -66,6 +69,7 @@ public class VisitorCompil implements Visitor {
         System.out.println((((("Attention ! Plus d\'un état est désigné comme initial !" + this.NEWLINE) + 
           "L\'état ") + Integer.valueOf(this.numStateInit)) + " est gardé comme état initial."));
       }
+      this.numStateInit = this.numState;
     }
     StringBuilder res = new StringBuilder();
     int _plusPlus = this.numState++;

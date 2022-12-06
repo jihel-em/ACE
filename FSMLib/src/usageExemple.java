@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 //This example helps to illustrate what the aim of the compilator is.
 public class usageExemple {
-	public void main(String[] args) {
+	public static void main(String[] args) {
 		
 		//Initialization
 		
@@ -24,10 +24,11 @@ public class usageExemple {
 		
 		
 		//Main
-		try (
-		Scanner scanner = new Scanner(System.in)) {
-			while(true)
+		try (Scanner scanner = new Scanner(System.in)) {
+			while(true) {
+				System.out.println("Enter the fire condition of a transition.");
 				context.getInput(scanner.nextLine());
+			}
 		}
 			
 		

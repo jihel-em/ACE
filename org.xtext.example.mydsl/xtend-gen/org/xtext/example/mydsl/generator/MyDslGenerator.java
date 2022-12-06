@@ -19,15 +19,26 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
  */
 @SuppressWarnings("all")
 public class MyDslGenerator extends AbstractGenerator {
+  private Boolean COMPILE = Boolean.valueOf(false);
+  
+  private Visitor v;
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     Iterable<FSM> _filter = Iterables.<FSM>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), FSM.class);
     for (final FSM f : _filter) {
-      {
-        VisitorCompil v = new VisitorCompil();
-        String _lastSegment = resource.getURI().trimFileExtension().lastSegment();
-        String _plus = (_lastSegment + ".java");
-        fsa.generateFile(_plus, v.visitFSM(f));
+      if ((this.COMPILE).booleanValue()) {
+        System.out.println("Lancement du compilateur.");
+        VisitorCompil _visitorCompil = new VisitorCompil();
+        this.v = _visitorCompil;
+        String _name = f.getName();
+        String _plus = (_name + ".java");
+        fsa.generateFile(_plus, this.v.visitFSM(f));
+      } else {
+        System.out.println("Lancement de l\'interpréteur.");
+        VisitorInterp _visitorInterp = new VisitorInterp();
+        this.v = _visitorInterp;
+        this.v.visitFSM(f);
       }
     }
   }

@@ -92,12 +92,12 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//State returns State:
 		//    {State}
-		//    'state' isInitState?="init" name=EString ('entry' entry=EString)?
+		//    'state' (isInitState?="init")? name=EString ('entry' entry=EString)?
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{State}
-		//'state' isInitState?="init" name=EString ('entry' entry=EString)?
+		//'state' (isInitState?="init")? name=EString ('entry' entry=EString)?
 		public Group getGroup() { return cGroup; }
 		
 		//{State}
@@ -106,7 +106,7 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//'state'
 		public Keyword getStateKeyword_1() { return cStateKeyword_1; }
 		
-		//isInitState?="init"
+		//(isInitState?="init")?
 		public Assignment getIsInitStateAssignment_2() { return cIsInitStateAssignment_2; }
 		
 		//"init"
@@ -134,8 +134,8 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.example.mydsl.MyDsl.Transition");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cTransitionKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameEStringParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Assignment cInputAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cInputEStringParserRuleCall_1_0 = (RuleCall)cInputAssignment_1.eContents().get(0);
 		private final Assignment cStart_stateAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cStart_stateStateCrossReference_2_0 = (CrossReference)cStart_stateAssignment_2.eContents().get(0);
 		private final RuleCall cStart_stateStateEStringParserRuleCall_2_0_1 = (RuleCall)cStart_stateStateCrossReference_2_0.eContents().get(1);
@@ -143,36 +143,35 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Assignment cEnd_stateAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final CrossReference cEnd_stateStateCrossReference_4_0 = (CrossReference)cEnd_stateAssignment_4.eContents().get(0);
 		private final RuleCall cEnd_stateStateEStringParserRuleCall_4_0_1 = (RuleCall)cEnd_stateStateCrossReference_4_0.eContents().get(1);
-		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
-		private final Keyword cLeftSquareBracketKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Assignment cInputAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
-		private final RuleCall cInputEStringParserRuleCall_5_1_0 = (RuleCall)cInputAssignment_5_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
+		private final Keyword cLeftSquareBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cNameAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cNameEStringParserRuleCall_6_0 = (RuleCall)cNameAssignment_6.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//Transition returns Transition:
-		//    'transition' name=EString
+		//    'transition' input=EString
 		//        start_state=[State|EString]
 		//        '->'
 		//        end_state=[State|EString]
-		//        ('[' input=EString ']')?
+		//        '[' name=EString ']'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'transition' name=EString
+		//'transition' input=EString
 		//    start_state=[State|EString]
 		//    '->'
 		//    end_state=[State|EString]
-		//    ('[' input=EString ']')?
+		//    '[' name=EString ']'
 		public Group getGroup() { return cGroup; }
 		
 		//'transition'
 		public Keyword getTransitionKeyword_0() { return cTransitionKeyword_0; }
 		
-		//name=EString
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		//input=EString
+		public Assignment getInputAssignment_1() { return cInputAssignment_1; }
 		
 		//EString
-		public RuleCall getNameEStringParserRuleCall_1_0() { return cNameEStringParserRuleCall_1_0; }
+		public RuleCall getInputEStringParserRuleCall_1_0() { return cInputEStringParserRuleCall_1_0; }
 		
 		//start_state=[State|EString]
 		public Assignment getStart_stateAssignment_2() { return cStart_stateAssignment_2; }
@@ -195,20 +194,17 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//EString
 		public RuleCall getEnd_stateStateEStringParserRuleCall_4_0_1() { return cEnd_stateStateEStringParserRuleCall_4_0_1; }
 		
-		//('[' input=EString ']')?
-		public Group getGroup_5() { return cGroup_5; }
-		
 		//'['
-		public Keyword getLeftSquareBracketKeyword_5_0() { return cLeftSquareBracketKeyword_5_0; }
+		public Keyword getLeftSquareBracketKeyword_5() { return cLeftSquareBracketKeyword_5; }
 		
-		//input=EString
-		public Assignment getInputAssignment_5_1() { return cInputAssignment_5_1; }
+		//name=EString
+		public Assignment getNameAssignment_6() { return cNameAssignment_6; }
 		
 		//EString
-		public RuleCall getInputEStringParserRuleCall_5_1_0() { return cInputEStringParserRuleCall_5_1_0; }
+		public RuleCall getNameEStringParserRuleCall_6_0() { return cNameEStringParserRuleCall_6_0; }
 		
 		//']'
-		public Keyword getRightSquareBracketKeyword_5_2() { return cRightSquareBracketKeyword_5_2; }
+		public Keyword getRightSquareBracketKeyword_7() { return cRightSquareBracketKeyword_7; }
 	}
 	public class EStringElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.example.mydsl.MyDsl.EString");
@@ -229,24 +225,12 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//ID
 		public RuleCall getIDTerminalRuleCall_1() { return cIDTerminalRuleCall_1; }
 	}
-	public class BooleanElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.example.mydsl.MyDsl.Boolean");
-		private final Keyword cInitKeyword = (Keyword)rule.eContents().get(1);
-		
-		//Boolean returns type::Boolean:
-		//    'init' /* TODO: implement this rule and an appropriate IValueConverter */;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'init'
-		public Keyword getInitKeyword() { return cInitKeyword; }
-	}
 	
 	
 	private final FSMElements pFSM;
 	private final StateElements pState;
 	private final TransitionElements pTransition;
 	private final EStringElements pEString;
-	private final BooleanElements pBoolean;
 	
 	private final Grammar grammar;
 	
@@ -261,7 +245,6 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		this.pState = new StateElements();
 		this.pTransition = new TransitionElements();
 		this.pEString = new EStringElements();
-		this.pBoolean = new BooleanElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -306,7 +289,7 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	//State returns State:
 	//    {State}
-	//    'state' isInitState?="init" name=EString ('entry' entry=EString)?
+	//    'state' (isInitState?="init")? name=EString ('entry' entry=EString)?
 	//;
 	public StateElements getStateAccess() {
 		return pState;
@@ -317,11 +300,11 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	}
 	
 	//Transition returns Transition:
-	//    'transition' name=EString
+	//    'transition' input=EString
 	//        start_state=[State|EString]
 	//        '->'
 	//        end_state=[State|EString]
-	//        ('[' input=EString ']')?
+	//        '[' name=EString ']'
 	//;
 	public TransitionElements getTransitionAccess() {
 		return pTransition;
@@ -339,16 +322,6 @@ public class MyDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	public ParserRule getEStringRule() {
 		return getEStringAccess().getRule();
-	}
-	
-	//Boolean returns type::Boolean:
-	//    'init' /* TODO: implement this rule and an appropriate IValueConverter */;
-	public BooleanElements getBooleanAccess() {
-		return pBoolean;
-	}
-	
-	public ParserRule getBooleanRule() {
-		return getBooleanAccess().getRule();
 	}
 	
 	//terminal ID: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;

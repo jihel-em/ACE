@@ -37,17 +37,16 @@ public class MyDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getStateAccess().getGroup(), "rule__State__Group__0");
 			builder.put(grammarAccess.getStateAccess().getGroup_4(), "rule__State__Group_4__0");
 			builder.put(grammarAccess.getTransitionAccess().getGroup(), "rule__Transition__Group__0");
-			builder.put(grammarAccess.getTransitionAccess().getGroup_5(), "rule__Transition__Group_5__0");
 			builder.put(grammarAccess.getFSMAccess().getNameAssignment_2(), "rule__FSM__NameAssignment_2");
 			builder.put(grammarAccess.getFSMAccess().getStateAssignment_3_0(), "rule__FSM__StateAssignment_3_0");
 			builder.put(grammarAccess.getFSMAccess().getTransitionAssignment_3_1(), "rule__FSM__TransitionAssignment_3_1");
 			builder.put(grammarAccess.getStateAccess().getIsInitStateAssignment_2(), "rule__State__IsInitStateAssignment_2");
 			builder.put(grammarAccess.getStateAccess().getNameAssignment_3(), "rule__State__NameAssignment_3");
 			builder.put(grammarAccess.getStateAccess().getEntryAssignment_4_1(), "rule__State__EntryAssignment_4_1");
-			builder.put(grammarAccess.getTransitionAccess().getNameAssignment_1(), "rule__Transition__NameAssignment_1");
+			builder.put(grammarAccess.getTransitionAccess().getInputAssignment_1(), "rule__Transition__InputAssignment_1");
 			builder.put(grammarAccess.getTransitionAccess().getStart_stateAssignment_2(), "rule__Transition__Start_stateAssignment_2");
 			builder.put(grammarAccess.getTransitionAccess().getEnd_stateAssignment_4(), "rule__Transition__End_stateAssignment_4");
-			builder.put(grammarAccess.getTransitionAccess().getInputAssignment_5_1(), "rule__Transition__InputAssignment_5_1");
+			builder.put(grammarAccess.getTransitionAccess().getNameAssignment_6(), "rule__Transition__NameAssignment_6");
 		}
 	}
 	

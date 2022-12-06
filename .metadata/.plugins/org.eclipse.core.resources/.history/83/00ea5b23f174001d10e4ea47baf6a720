@@ -1,0 +1,83 @@
+package org.xtext.example.mydsl.generator
+
+import fr.ice.fsm.model.fsm.FSM
+import fr.ice.fsm.model.fsm.State
+import fr.ice.fsm.model.fsm.Transition
+import java.util.Map
+import java.util.HashMap
+import java.util.Scanner
+
+//Visitor that interprets the fsm language.
+class VisitorInterp implements Visitor {
+	private Scanner scanner
+	private String userInput	//Input que rentrera l'utilisateur.
+	private State currentState	//État courant dans lequel se trouve le fsm.
+	private State validTransitionState	//État valide pour la transition de currentState avec userInput
+	
+	override visitFSM(FSM f) {
+		var res = new StringBuilder()
+		var name = f.getName()
+		
+		//On récupère l'état initial, qui sera le premier état courrant.
+		for(s: f.getState()){
+			s.accept(this)
+		}
+		
+		
+		//On récupère l'input de l'utilisateur.
+		scanner = new Scanner(System.in)
+		System.out.println("Veuillez entrer un mot-clef pour lancer une transition.")
+		userInput = scanner.nextLine()
+		
+		while (userInput != "EXIT FSM"){
+			
+			//On récupère toutes les transitions valides pour cet input.
+			for(t: f.getTransition())
+				t.accept(this)
+			
+			//On actualise l'état courant avec le nouvel état.
+			currentState = validTransitionState
+			System.out.println(currentState.getEntry())
+			
+			validTransitionState = null
+			userInput = scanner.nextLine()
+		}
+		
+		
+		return res
+	}
+	
+	//Il semblerait qu'il ne soit pas nécessaire de visiter les états pour interpréter.
+	override visitState(State s) {
+		if (s.isIsInitState()){
+			if (currentState !== null)
+				System.out.println("You declared several init states for a same FSM.")
+			else{
+				currentState = s
+				System.out.println("Entry: " + currentState.getEntry())
+			}
+		}
+			
+		return new StringBuilder()
+	}
+	
+	//On récupère la transition, si elle est valide, dans la Map validTransitions.
+	override visitTransition(Transition t) {
+		if (t.getInput() == userInput && t.getStart_state() == currentState) {			
+			if (validTransitionState !== null)
+				System.out.println("Non determinism")
+			else
+				validTransitionState = t.getEnd_state()	
+		}	
+		return new StringBuilder()
+	}
+	
+	
+	//to delete
+	def StringBuilder accept(State state, VisitorInterp v){
+		return v.visitState(state)
+	}
+	def StringBuilder accept(Transition transition, VisitorInterp v){
+		return v.visitTransition(transition)
+	}
+}

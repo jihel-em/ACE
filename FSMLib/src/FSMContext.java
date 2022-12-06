@@ -11,6 +11,7 @@ public class FSMContext {
 	
 	void changeState(FSMState newState) {
 		currentState = newState;
+		System.out.println("New state : " + currentState.entry);
 	}
 	
 	void transition(String input) {

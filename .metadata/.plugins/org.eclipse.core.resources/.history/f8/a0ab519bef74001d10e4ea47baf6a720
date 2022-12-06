@@ -1,0 +1,76 @@
+package org.xtext.example.mydsl.generator
+
+import fr.ice.fsm.model.fsm.FSM
+import fr.ice.fsm.model.fsm.State
+import fr.ice.fsm.model.fsm.Transition
+import java.util.Map
+import java.util.HashMap
+import java.util.Scanner
+
+//Visitor that interprets the fsm language.
+class VisitorInterp implements Visitor {
+	private Scanner scanner
+	private String userInput	//Input que rentrera l'utilisateur.
+	private State currentState	//État courant dans lequel se trouve le fsm.
+	private State validTransition	//État valide pour la transition de currentState avec userInput
+	
+	override visitFSM(FSM f) {
+		var res = new StringBuilder()
+		var name = f.getName()
+		
+		//On récupère l'état initial, qui sera le premier état courrant.
+		for(s: f.getState()){
+			if (s.isIsInitState())
+				currentState = s
+		}
+		
+		//On récupère l'input de l'utilisateur.
+		scanner = new Scanner(System.in)
+		userInput = scanner.nextLine()
+		
+		while (userInput != "EXIT FSM"){
+			
+			//On récupère toutes les transitions valides pour cet input.
+			for(t: f.getTransition())
+				t.accept(this)
+			
+			//On actualise l'état courant avec le nouvel état.
+			currentState = validTransition
+			System.out.println(currentState.getEntry())
+			
+			validTransition = null
+			userInput = scanner.nextLine()
+		}
+		
+		
+		return res
+	}
+	
+	override visitState(State s) {
+		var entry = s.getEntry()
+		var name = s.getName()
+		var init = s.isIsInitState()
+		
+		return new StringBuilder()
+	}
+	
+	//On récupère la transition, si elle est valide, dans la Map validTransitions.
+	override visitTransition(Transition t) {
+		if (t.getInput() == userInput && t.getStart_state() == currentState) {			
+			if (validTransition !== null)
+				System.out.println("Non determinism")
+			else
+				validTransition = t.getEnd_state()	
+		}	
+		return new StringBuilder()
+	}
+	
+	
+	//to delete
+	def StringBuilder accept(State state, VisitorInterp v){
+		return v.visitState(state)
+	}
+	def StringBuilder accept(Transition transition, VisitorInterp v){
+		return v.visitTransition(transition)
+	}
+}

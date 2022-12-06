@@ -16,10 +16,29 @@ import fr.ice.fsm.model.fsm.FSM
  */
 class MyDslGenerator extends AbstractGenerator {
 
+	//If COMPILE, the doGenerate will create a .java file from the fsm file.
+	//Else, it does not generate a new file and directly interpret the file.
+	Boolean COMPILE = false
+	Visitor v
+
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		
 		for(f: resource.allContents.toIterable.filter(FSM)){
-			var v = new VisitorCompil()
-			fsa.generateFile(resource.getURI().trimFileExtension().lastSegment+".java", v.visitFSM(f))
+			
+			if (COMPILE) {
+				System.out.println("Lancement du compilateur.")
+				
+				v = new VisitorCompil()
+				fsa.generateFile(f.getName()+".java", v.visitFSM(f))
+			}
+			else {
+				//Does not work -> compiulation problem ?
+				System.out.println("Lancement de l'interpréteur.")
+				
+				v = new VisitorInterp()
+				v.visitFSM(f)
+			}
+				
 		}
 	}
 }

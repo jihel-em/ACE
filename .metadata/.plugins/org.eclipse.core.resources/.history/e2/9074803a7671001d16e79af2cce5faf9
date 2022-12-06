@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class door {
+	public static void main(String[] args) {
+		//Initialization
+		//We start by creating the context.
+		FSMContext context = new FSMContext();
+
+		//Then we create the states.
+		FSMState s0 = new FSMState(context, "open door");
+		FSMState s1 = new FSMState(context, "close door");
+		FSMState s2 = new FSMState(context, "broken door");
+
+		//We put the init state into the context.
+		context.changeState(s1);
+		
+		System.out.println("test");
+		
+		//We create the transitions.
+		s1.addTransition("on", "open", s0);
+		s0.addTransition("off", "close", s1);
+		s0.addTransition("warning", "b1", s2);
+		s1.addTransition("warning", "b2", s2);
+
+		//Main
+		Scanner scanner = new Scanner(System.in);
+		while(true)
+			context.getInput(scanner.nextLine());
+	}
+}

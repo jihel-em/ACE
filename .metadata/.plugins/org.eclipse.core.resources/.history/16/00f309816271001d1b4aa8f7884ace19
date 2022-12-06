@@ -1,0 +1,76 @@
+package org.xtext.example.mydsl.generator
+
+import fr.ice.fsm.model.fsm.FSM
+import fr.ice.fsm.model.fsm.State
+import fr.ice.fsm.model.fsm.Transition
+import java.util.Map
+import java.util.HashMap
+import java.util.Scanner
+
+class VisitorInterp implements Visitor {	
+	private Scanner scanner
+	private String userInput	//Input que rentrera l'utilisateur.
+	private Map<State,State> validTransitions
+	
+	override visitFSM(FSM f) {
+		var res = new StringBuilder()
+		var name = f.getName()
+		
+		scanner = new Scanner(System.in)
+		
+		//On récupère l'input de l'utilisateur.
+		userInput = scanner.nextLine()
+		validTransitions = new HashMap<State,State>()
+		
+		for(t: f.getTransition()){
+			res.append(t.accept(this))
+		}
+		
+		
+		for(s: f.getState()){
+			res.append(s.accept(this))
+		}
+		
+		
+		return res
+	}
+	
+	override visitState(State s) {
+		var entry = s.getEntry()
+		var name = s.getName()
+		var init = s.isIsInitState()
+
+		if (!mapStateTransition.containsKey(name))
+			mapStateTransition.put(name, new HashMap<String,String>())
+
+		var res = new StringBuilder()
+		
+		return res
+	}
+	
+	//On cherche les transitions qui se déclenchent via userinput
+	override visitTransition(Transition t) {
+		var input = t.getInput()
+		var name = t.getName()
+		var end_state = t.getEnd_state()
+		var start_state = t.getStart_state()
+		
+		if (input==userInput){
+			if (validTransitions.containsKey(start_state)){
+				System.out.println("Non determinism")
+			}
+			validTransitions.put(start_state, end_state)			
+		}
+		
+		return new StringBuilder()
+	}
+	
+	
+	//to delete
+	def StringBuilder accept(State state, VisitorInterp v){
+		return v.visitState(state)
+	}
+	def StringBuilder accept(Transition transition, VisitorInterp v){
+		return v.visitTransition(transition)
+	}
+}

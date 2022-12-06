@@ -13,19 +13,16 @@ FSM returns FSM:
 
 State returns State:
 	{State}
-	'state' isInitState?="init" name=EString ('entry' entry=EString)?
+	'state' (isInitState?="init")? name=EString ('entry' entry=EString)?
 ;
 
 Transition returns Transition:
-	'transition' name=EString
+	'transition' input=EString
 		start_state=[State|EString]
 		'->'
 		end_state=[State|EString]
-		('[' input=EString ']')?
+		'[' name=EString ']'
 ;
 
 EString returns ecore::EString:
 	STRING | ID;
-
-Boolean returns type::Boolean:
-	'init' /* TODO: implement this rule and an appropriate IValueConverter */;

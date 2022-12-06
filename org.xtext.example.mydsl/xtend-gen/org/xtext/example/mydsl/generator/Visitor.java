@@ -8,7 +8,7 @@ import fr.ice.fsm.model.fsm.Transition;
 public interface Visitor {
   StringBuilder visitFSM(final FSM f);
   
-  StringBuilder visitState(final State t);
+  StringBuilder visitState(final State s);
   
   StringBuilder visitTransition(final Transition t);
 }

@@ -15,7 +15,9 @@ import org.eclipse.xtext.Action;
 import org.eclipse.xtext.Parameter;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.serializer.ISerializationContext;
+import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
+import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 import org.xtext.example.mydsl.services.MyDslGrammarAccess;
 
 @SuppressWarnings("all")
@@ -63,7 +65,7 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     State returns State
 	 *
 	 * Constraint:
-	 *     (isInitState?='init' name=EString entry=EString?)
+	 *     (isInitState?='init'? name=EString entry=EString?)
 	 */
 	protected void sequence_State(ISerializationContext context, State semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -75,10 +77,25 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     Transition returns Transition
 	 *
 	 * Constraint:
-	 *     (name=EString start_state=[State|EString] end_state=[State|EString] input=EString?)
+	 *     (input=EString start_state=[State|EString] end_state=[State|EString] name=EString)
 	 */
 	protected void sequence_Transition(ISerializationContext context, Transition semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FsmPackage.Literals.TRANSITION__INPUT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FsmPackage.Literals.TRANSITION__INPUT));
+			if (transientValues.isValueTransient(semanticObject, FsmPackage.Literals.TRANSITION__START_STATE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FsmPackage.Literals.TRANSITION__START_STATE));
+			if (transientValues.isValueTransient(semanticObject, FsmPackage.Literals.TRANSITION__END_STATE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FsmPackage.Literals.TRANSITION__END_STATE));
+			if (transientValues.isValueTransient(semanticObject, FsmPackage.Literals.TRANSITION__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FsmPackage.Literals.TRANSITION__NAME));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTransitionAccess().getInputEStringParserRuleCall_1_0(), semanticObject.getInput());
+		feeder.accept(grammarAccess.getTransitionAccess().getStart_stateStateEStringParserRuleCall_2_0_1(), semanticObject.eGet(FsmPackage.Literals.TRANSITION__START_STATE, false));
+		feeder.accept(grammarAccess.getTransitionAccess().getEnd_stateStateEStringParserRuleCall_4_0_1(), semanticObject.eGet(FsmPackage.Literals.TRANSITION__END_STATE, false));
+		feeder.accept(grammarAccess.getTransitionAccess().getNameEStringParserRuleCall_6_0(), semanticObject.getName());
+		feeder.finish();
 	}
 	
 	
